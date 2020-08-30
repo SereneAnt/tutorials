@@ -1,30 +1,21 @@
 package com.baeldung.aws.reactive.s3;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.ResourceUtils;
 
-import static org.junit.Assert.*;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static org.junit.Assert.assertEquals;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("minio")
@@ -44,7 +35,7 @@ class ReactiveS3ApplicationLiveTest {
         byte[] data = Files.readAllBytes(Paths.get("src/test/resources/testimage1.png"));         
         UploadResult result = restTemplate.postForObject(url, data , UploadResult.class);
         
-        assertEquals("Expected CREATED (202)", result.getStatus(), HttpStatus.CREATED );
+        assertEquals("Expected CREATED (202)", result.status, HttpStatus.CREATED );
         
     }
     
@@ -62,7 +53,7 @@ class ReactiveS3ApplicationLiveTest {
         ResponseEntity<UploadResult> result = restTemplate.postForEntity(url, requestEntity, UploadResult.class);
 
         assertEquals("Http Code",HttpStatus.CREATED, result.getStatusCode() );
-        assertEquals("File keys",2, result.getBody().getKeys().length);
+        assertEquals("File keys",2, result.getBody().keys.length);
         
     }
 

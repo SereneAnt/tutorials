@@ -18,14 +18,16 @@ import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.utils.StringUtils;
 
 @Configuration
-@EnableConfigurationProperties(S3ClientConfigurarionProperties.class)
+@EnableConfigurationProperties(S3ClientConfigurationProperties.class)
 public class S3ClientConfiguration {
 
     @Bean
-    public S3AsyncClient s3client(S3ClientConfigurarionProperties s3props, AwsCredentialsProvider credentialsProvider) {
+    public S3AsyncClient s3client(S3ClientConfigurationProperties s3props, AwsCredentialsProvider credentialsProvider) {
 
         SdkAsyncHttpClient httpClient = NettyNioAsyncHttpClient.builder()
             .writeTimeout(Duration.ZERO)
+            .connectionTimeout(Duration.ofSeconds(10))
+            .connectionAcquisitionTimeout(Duration.ofSeconds(10))
             .maxConcurrency(64)
             .build();
 
@@ -48,7 +50,7 @@ public class S3ClientConfiguration {
     }
 
     @Bean
-    public AwsCredentialsProvider awsCredentialsProvider(S3ClientConfigurarionProperties s3props) {
+    public AwsCredentialsProvider awsCredentialsProvider(S3ClientConfigurationProperties s3props) {
 
         if (StringUtils.isBlank(s3props.getAccessKeyId())) {
             // Return default provider

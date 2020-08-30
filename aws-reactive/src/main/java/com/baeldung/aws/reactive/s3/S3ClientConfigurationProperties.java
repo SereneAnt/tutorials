@@ -9,7 +9,7 @@ import software.amazon.awssdk.regions.Region;
 
 @ConfigurationProperties(prefix = "aws.s3")
 @Data
-public class S3ClientConfigurarionProperties {
+public class S3ClientConfigurationProperties {
 
     private Region region = Region.US_EAST_1;
     private URI endpoint = null;

@@ -3,17 +3,12 @@
  */
 package com.baeldung.aws.reactive.s3;
 
-import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import software.amazon.awssdk.core.ResponseBytes;
-import software.amazon.awssdk.core.SdkResponse;
 import software.amazon.awssdk.core.async.AsyncResponseTransformer;
 import software.amazon.awssdk.core.async.SdkPublisher;
-import software.amazon.awssdk.core.internal.async.ByteArrayAsyncResponseTransformer;
 import software.amazon.awssdk.http.SdkHttpResponse;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -43,9 +35,9 @@ public class DownloadResource {
     
     
     private final S3AsyncClient s3client;
-    private final S3ClientConfigurarionProperties s3config;
+    private final S3ClientConfigurationProperties s3config;
 
-    public DownloadResource(S3AsyncClient s3client, S3ClientConfigurarionProperties s3config) {
+    public DownloadResource(S3AsyncClient s3client, S3ClientConfigurationProperties s3config) {
         this.s3client = s3client;
         this.s3config = s3config;        
     }
